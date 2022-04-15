@@ -1,19 +1,10 @@
 {
-  "debug.console.historySuggestions": false,
-  "editor.formatOnSave": false,
-  "editor.insertSpaces": false,
-  "editor.snippetSuggestions": "none",
-  "editor.suggest.snippetsPreventQuickSuggestions": false,
-  "editor.suggestSelection": "recentlyUsedByPrefix",
-  "editor.wordBasedSuggestions": false,
-  "emmet.showAbbreviationSuggestions": false,
-  "emmet.showExpandedAbbreviation": "never",
-  "files.exclude": {
-    "**/.DS_Store": true,
-    "**/.git": true,
-    "**/yarn.lock": true
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/build": true,
+    "**/dist": true,
+    "package-lock.json": true
   },
-  "javascript.suggest.enabled": false,
-  "javascript.suggest.names": false,
+  "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.tsserver.maxTsServerMemory": 8192
 }
