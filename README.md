@@ -4,6 +4,10 @@
 
 # Stitches
 
+Fork notes:
+- Support TypeScript 4.6+
+- Support React 18's `useInsertionEffect`
+
 ## Style your components with confidence
 
 CSS-in-JS with near-zero runtime, SSR, multi-variant support, and a best-in-class developer experience.
