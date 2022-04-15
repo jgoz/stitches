@@ -1,5 +1,5 @@
 {
-  "name": "@stitches/stringify",
+  "name": "@implydata/stitches-stringify",
   "version": "1.2.7",
   "description": "Converts an object into CSS",
   "type": "module",

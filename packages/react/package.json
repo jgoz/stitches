@@ -1,5 +1,5 @@
 {
-  "name": "@stitches/react",
+  "name": "@implydata/stitches-react",
   "version": "1.2.7",
   "description": "The modern CSS-in-JS library",
   "type": "module",

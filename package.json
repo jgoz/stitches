@@ -2,6 +2,7 @@
   "$schema": "./.vscode/package.schema.json",
   "name": "stitches",
   "type": "module",
+  "private": true,
   "license": "MIT",
   "contributors": [
     "Pedro Duarte <pedro@modulz.app>",
@@ -20,12 +21,14 @@
     "test:coverage": "node .task/test-coverage.js .task/test.js",
     "test:watch": "node .task/test.js --watch"
   },
-  "workspaces": [
-    "packages/core",
-    "packages/react",
-    "packages/test",
-    "packages/stringify"
-  ],
+  "workspaces": {
+    "packages": [
+      "packages/core",
+      "packages/react",
+      "packages/test",
+      "packages/stringify"
+    ]
+  },
   "dependencies": {
     "@radix-ui/react-polymorphic": "0.0.14",
     "@radix-ui/react-separator": "0.1.0",
@@ -151,5 +154,7 @@
       }
     ]
   },
-  "private": true
+  "volta": {
+    "node": "16.14.2"
+  }
 }
