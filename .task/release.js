@@ -19,10 +19,10 @@ const main = async () => {
 
 	await cp.spawn('npm', ['version', state.release, '--workspaces'], { stdio: 'pipe' })
 
-	const workspacepkgpaths = new Set
-	const workspacetags = new Set
+	const workspacepkgpaths = new Set()
+	const workspacetags = new Set()
 
-	for (let workspace of pkg.workspaces) {
+	for (let workspace of pkg.workspaces.packages) {
 		workspace = root.to(workspace).dir
 
 		const workspacepkgpath = workspace.to('package.json')
