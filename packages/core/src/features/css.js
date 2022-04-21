@@ -26,8 +26,8 @@ import { createRulesInjectionDeferrer } from '../sheet.js'
 const createCssFunctionMap = createMemo()
 
 /** Returns a function that applies component styles. */
-export const createCssFunction = (/** @type {Config} */ config, /** @type {SheetGroup} */ sheet) =>
-	createCssFunctionMap(config, () => (...args) => {
+export const createCssFunction = (/** @type {Config} */ config, /** @type {SheetGroup} */ sheet, /** @type {boolean} */ alwaysDeferred) => {
+	return createCssFunctionMap(config, () => (...args) => {
 		/** @type {Internals} */
 		let internals = {
 			type: null,
@@ -62,8 +62,9 @@ export const createCssFunction = (/** @type {Config} */ config, /** @type {Sheet
 		if (internals.type == null) internals.type = 'span'
 		if (!internals.composers.size) internals.composers.add(['PJLV', {}, [], [], {}, []])
 
-		return createRenderer(config, internals, sheet)
+		return createRenderer(config, internals, sheet, alwaysDeferred)
 	})
+}
 
 /** Creates a composer from a configuration object. */
 const createComposer = (/** @type {InitComposer} */ { variants: initSingularVariants, compoundVariants: initCompoundVariants, defaultVariants: initDefaultVariants, ...style }, /** @type {Config} */ config) => {
@@ -133,7 +134,8 @@ const createComposer = (/** @type {InitComposer} */ { variants: initSingularVari
 const createRenderer = (
 	/** @type {Config} */ config,
 	/** @type {Internals} */ internals,
-	/** @type {import('../sheet').SheetGroup} */ sheet
+	/** @type {import('../sheet').SheetGroup} */ sheet,
+	/** @type {boolean} */ alwaysDeferred
 ) => {
 	const [
 		baseClassName,
@@ -142,7 +144,7 @@ const createRenderer = (
 		undefinedVariants
 	] = getPreparedDataFromComposers(internals.composers)
 
-	const deferredInjector = typeof internals.type === 'function' || !!internals.type.$$typeof ? createRulesInjectionDeferrer(sheet) : null
+	const deferredInjector = typeof internals.type === 'function' || !!internals.type.$$typeof || alwaysDeferred ? createRulesInjectionDeferrer(sheet) : null
 	const injectionTarget = (deferredInjector || sheet).rules
 
 	const selector = `.${baseClassName}${baseClassNames.length > 1 ? `:where(.${baseClassNames.slice(1).join('.')})` : ``}`
@@ -215,7 +217,7 @@ const createRenderer = (
 					classSet.add(variantClassName)
 
 					const groupCache = (isResponsive ? sheet.rules.resonevar : sheet.rules.onevar ).cache
-					/* 
+					/*
 					 * make sure that normal variants are injected before responsive ones
 					 * @see {@link https://github.com/modulz/stitches/issues/737|github}
 					 */
@@ -377,7 +379,7 @@ const getTargetVariantsToAdd = (
 				for (const query in pPair) {
 					if (vPair === String(pPair[query])) {
 						if (query !== '@initial') {
-							// check if the cleanQuery is in the media config and then we push the resulting media query to the matchedQueries array, 
+							// check if the cleanQuery is in the media config and then we push the resulting media query to the matchedQueries array,
 							// if not, we remove the @media from the beginning and push it to the matched queries which then will be resolved a few lines down
 							// when we finish working on this variant and want wrap the vStyles with the matchedQueries
 							const cleanQuery = query.slice(1);
