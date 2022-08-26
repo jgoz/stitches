@@ -103,17 +103,17 @@ export type CSS<
 )
 
 /** Unique symbol used to reference a property value. */
-export declare const $$PropertyValue: unique symbol
+export declare const $$PropertyValue: symbol
 
 /** Unique symbol used to reference a property value. */
 export type $$PropertyValue = typeof $$PropertyValue
 
 /** Unique symbol used to reference a token value. */
-export declare const $$ScaleValue: unique symbol
+export declare const $$ScaleValue: symbol
 
 /** Unique symbol used to reference a token value. */
 export type $$ScaleValue = typeof $$ScaleValue
 
-export declare const $$ThemeValue: unique symbol
+export declare const $$ThemeValue: symbol
 
 export type $$ThemeValue = typeof $$ThemeValue
