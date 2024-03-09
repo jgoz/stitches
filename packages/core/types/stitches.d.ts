@@ -28,7 +28,8 @@ export interface CssFunctionType<
 				: Composers[K] extends string | Util.Function
 					? Composers[K]
 					: RemoveIndex<CSS> & {
-							/** The **variants** property lets you set a subclass of styles based on a key-value pair.
+							/**
+							 * The **variants** property lets you set a subclass of styles based on a key-value pair.
 							 *
 							 * [Read Documentation](https://stitches.dev/docs/variants)
 							 */
@@ -37,7 +38,8 @@ export interface CssFunctionType<
 									[Pair in number | string]: CSS
 								}
 							}
-							/** The **compoundVariants** property lets you to set a subclass of styles based on a combination of active variants.
+							/**
+							 * The **compoundVariants** property lets you to set a subclass of styles based on a combination of active variants.
 							 *
 							 * [Read Documentation](https://stitches.dev/docs/variants#compound-variants)
 							 */
@@ -50,7 +52,8 @@ export interface CssFunctionType<
 								: Util.WideObject) & {
 								css: CSS
 							})[]
-							/** The **defaultVariants** property allows you to predefine the active key-value pairs of variants.
+							/**
+							 * The **defaultVariants** property allows you to predefine the active key-value pairs of variants.
 							 *
 							 * [Read Documentation](https://stitches.dev/docs/variants#default-variants)
 							 */
@@ -93,7 +96,8 @@ export default interface Stitches<
 		utils: Utils
 	}
 	prefix: Prefix
-	/** The **prefix** property defined.
+	/**
+	 * The **prefix** property defined.
 	 *
 	 * [Read Documentation](https://stitches.dev/docs/variants)
 	 */
