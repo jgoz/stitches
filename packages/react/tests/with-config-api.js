@@ -42,7 +42,9 @@ describe('styled.withConfig', () => {
 		const cssString = getCssText()
 
 		expect(className).toBe('c-my-cool-display-name-gmqXFB')
-		expect(cssString).toBe(`--sxs{--sxs:2 c-my-cool-display-name-gmqXFB}@media{.c-my-cool-display-name-gmqXFB{color:red}}`)
+		expect(cssString).toBe(
+			`--sxs{--sxs:2 c-my-cool-display-name-gmqXFB}@media{.c-my-cool-display-name-gmqXFB{color:red}}`,
+		)
 	})
 
 	test('Creates the correct className with a displayName and componentId', () => {
@@ -58,7 +60,9 @@ describe('styled.withConfig', () => {
 		const cssString = getCssText()
 
 		expect(className).toBe('c-my-cool-display-name-cool-id')
-		expect(cssString).toBe(`--sxs{--sxs:2 c-my-cool-display-name-cool-id}@media{.c-my-cool-display-name-cool-id{color:red}}`)
+		expect(cssString).toBe(
+			`--sxs{--sxs:2 c-my-cool-display-name-cool-id}@media{.c-my-cool-display-name-cool-id{color:red}}`,
+		)
 	})
 
 	test('Sets displayName on the component when passed as a componentConfig', () => {
@@ -78,14 +82,18 @@ describe('styled.withConfig', () => {
 		const ComponentToExtend = styled.withConfig({
 			componentId: 'component-to-extend-id',
 		})({ color: 'red' })
-		const ComponentToRender = styled.withConfig({ componentId: 'cool-component-id' })(ComponentToExtend, { color: 'blue' })
+		const ComponentToRender = styled.withConfig({ componentId: 'cool-component-id' })(ComponentToExtend, {
+			color: 'blue',
+		})
 
 		const className = ComponentToRender.render().props.className
 
 		const cssString = getCssText()
 
 		expect(className).toBe('c-component-to-extend-id c-cool-component-id')
-		expect(cssString).toBe(`--sxs{--sxs:2 c-component-to-extend-id c-cool-component-id}@media{.c-component-to-extend-id{color:red}.c-cool-component-id{color:blue}}`)
+		expect(cssString).toBe(
+			`--sxs{--sxs:2 c-component-to-extend-id c-cool-component-id}@media{.c-component-to-extend-id{color:red}.c-cool-component-id{color:blue}}`,
+		)
 	})
 })
 

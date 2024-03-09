@@ -33,6 +33,8 @@ describe('Component: Utilities & Tokens', () => {
 			ftw: '$sp',
 		})()
 
-		expect(toString()).toBe(`--sxs{--sxs:2 c-ilqzId}@media{.c-ilqzId{color:var(--colors-sp);padding-left:var(--space-sp);padding-right:var(--space-sp)}}`)
+		expect(toString()).toBe(
+			`--sxs{--sxs:2 c-ilqzId}@media{.c-ilqzId{color:var(--colors-sp);padding-left:var(--space-sp);padding-right:var(--space-sp)}}`,
+		)
 	})
 })

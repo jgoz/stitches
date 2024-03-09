@@ -13,13 +13,7 @@ const comma = /\s*,\s*(?![^()]*\))/
 /** Default toString method of Objects. */
 const toStringOfObject = Object.prototype.toString
 
-export const toCssRules = (
-	 style,
-	 selectors,
-	 conditions,
-	 config,
-	 onCssText
-) => {
+export const toCssRules = (style, selectors, conditions, config, onCssText) => {
 	/** @type {[string[], string[], string[]]} CSSOM-compatible rule being created. */
 	let currentRule = undefined
 
@@ -50,9 +44,13 @@ export const toCssRules = (
 
 				for (data of datas) {
 					const camelName = toCamelCase(name)
-					
+
 					/** Whether the current data represents a nesting rule, which is a plain object whose key is not already a util. */
-					const isRuleLike = typeof data === 'object' && data && data.toString === toStringOfObject && (!config.utils[camelName] || !selectors.length)
+					const isRuleLike =
+						typeof data === 'object' &&
+						data &&
+						data.toString === toStringOfObject &&
+						(!config.utils[camelName] || !selectors.length)
 
 					// if the left-hand "name" matches a configured utility
 					// conditionally transform the current data using the configured utility
@@ -88,7 +86,9 @@ export const toCssRules = (
 					// if the left-hand "name" matches a configured at-rule
 					if (isAtRuleLike) {
 						// transform the current name with the configured media at-rule prelude
-						name = toResolvedMediaQueryRanges(name.slice(1) in config.media ? '@media ' + config.media[name.slice(1)] : name)
+						name = toResolvedMediaQueryRanges(
+							name.slice(1) in config.media ? '@media ' + config.media[name.slice(1)] : name,
+						)
 					}
 
 					if (isRuleLike) {
@@ -109,24 +109,27 @@ export const toCssRules = (
 						if (currentRule === undefined) currentRule = [[], selectors, conditions]
 
 						/** CSS left-hand side value, which may be a specially-formatted custom property. */
-						name = !isAtRuleLike && name.charCodeAt(0) === 36 ? `--${toTailDashed(config.prefix)}${name.slice(1).replace(/\$/g, '-')}` : name
+						name =
+							!isAtRuleLike && name.charCodeAt(0) === 36
+								? `--${toTailDashed(config.prefix)}${name.slice(1).replace(/\$/g, '-')}`
+								: name
 
 						/** CSS right-hand side value, which may be a specially-formatted custom property. */
-						data = (
+						data =
 							// preserve object-like data
-							isRuleLike ? data
-							// replace all non-unitless props that are not custom properties with pixel versions
-							: typeof data === 'number'
-								? data && !(camelName in unitlessProps) && !(name.charCodeAt(0) === 45)
-									? String(data) + 'px'
-								: String(data)
-							// replace tokens with stringified primitive values
-							: toTokenizedValue(
-								toSizingValue(camelName, data == null ? '' : data),
-								config.prefix,
-								config.themeMap[camelName]
-							)
-						)
+							isRuleLike
+								? data
+								: // replace all non-unitless props that are not custom properties with pixel versions
+									typeof data === 'number'
+									? data && !(camelName in unitlessProps) && !(name.charCodeAt(0) === 45)
+										? String(data) + 'px'
+										: String(data)
+									: // replace tokens with stringified primitive values
+										toTokenizedValue(
+											toSizingValue(camelName, data == null ? '' : data),
+											config.prefix,
+											config.themeMap[camelName],
+										)
 
 						currentRule[0].push(`${isAtRuleLike ? `${name} ` : `${toHyphenCase(name)}:`}${data}`)
 					}
@@ -145,9 +148,8 @@ export const toCssRules = (
 	walk(style, selectors, conditions)
 }
 
-const toCssString = (declarations,  selectors,  conditions) => (
+const toCssString = (declarations, selectors, conditions) =>
 	`${conditions.map((condition) => `${condition}{`).join('')}${selectors.length ? `${selectors.join(',')}{` : ''}${declarations.join(';')}${selectors.length ? `}` : ''}${Array(conditions.length ? conditions.length + 1 : 0).join('}')}`
-)
 
 /** CSS Properties whose number values should be unitless. */
 export const unitlessProps = {
@@ -197,5 +199,5 @@ export const unitlessProps = {
 	strokeDashoffset: 1,
 	strokeMiterlimit: 1,
 	strokeOpacity: 1,
-	strokeWidth: 1
+	strokeWidth: 1,
 }

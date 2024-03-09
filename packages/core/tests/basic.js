@@ -103,7 +103,9 @@ describe('Basic', () => {
 
 		expect(rendering1of1).toBeInstanceOf(Object)
 		expect(className1of1).toBe('t-kfidiM')
-		expect(cssString1of1).toBe(`--sxs{--sxs:0 t-kfidiM}@media{.t-kfidiM{--colors-red:Crimson;--colors-blue:DodgerBlue}}`)
+		expect(cssString1of1).toBe(
+			`--sxs{--sxs:0 t-kfidiM}@media{.t-kfidiM{--colors-red:Crimson;--colors-blue:DodgerBlue}}`,
+		)
 	})
 
 	test('Functionality of css() — css prop', () => {
@@ -118,10 +120,10 @@ describe('Basic', () => {
 		expect(cssString1of1).toBe(
 			`--sxs{--sxs:2 c-dataoT}@media{` +
 				`.c-dataoT{color:DodgerBlue}` +
-			`}` +
-			`--sxs{--sxs:6 c-dataoT-icaIZdx-css}@media{` +
+				`}` +
+				`--sxs{--sxs:6 c-dataoT-icaIZdx-css}@media{` +
 				`.c-dataoT-icaIZdx-css{color:Crimson}` +
-			`}`
+				`}`,
 		)
 	})
 
@@ -146,7 +148,9 @@ describe('Basic', () => {
 
 		expect(component1of1).toBeInstanceOf(Function)
 		expect(className1of1).toBe('c-imTdEZ c-imTdEZ-caIZdx-shade-red')
-		expect(cssString1of1).toBe(`--sxs{--sxs:2 c-imTdEZ}@media{.c-imTdEZ{font-size:100%}}--sxs{--sxs:3 c-imTdEZ-caIZdx-shade-red}@media{.c-imTdEZ-caIZdx-shade-red{color:Crimson}}`)
+		expect(cssString1of1).toBe(
+			`--sxs{--sxs:2 c-imTdEZ}@media{.c-imTdEZ{font-size:100%}}--sxs{--sxs:3 c-imTdEZ-caIZdx-shade-red}@media{.c-imTdEZ-caIZdx-shade-red{color:Crimson}}`,
+		)
 	})
 
 	test('Functionality of css() — utils', () => {
@@ -225,7 +229,9 @@ describe('Basic', () => {
 		const cssString1of1 = getCssText()
 
 		expect(className1of1).toBe('fusion-c-elRGCe')
-		expect(cssString1of1).toBe(`--sxs{--sxs:2 fusion-c-elRGCe}@media{.fusion-c-elRGCe{--fusion--brand:500px;width:var(--fusion--brand)}}`)
+		expect(cssString1of1).toBe(
+			`--sxs{--sxs:2 fusion-c-elRGCe}@media{.fusion-c-elRGCe{--fusion--brand:500px;width:var(--fusion--brand)}}`,
+		)
 	})
 
 	test('Stringification: Utils + Local Tokens', () => {
@@ -247,7 +253,9 @@ describe('Basic', () => {
 		const cssString1of1 = getCssText()
 
 		expect(className1of1).toBe('c-brAtkJ')
-		expect(cssString1of1).toBe(`--sxs{--sxs:2 c-brAtkJ}@media{.c-brAtkJ{---blur:test;-webkit-backdrop-filter:var(---blur);backdrop-filter:var(---blur)}}`)
+		expect(cssString1of1).toBe(
+			`--sxs{--sxs:2 c-brAtkJ}@media{.c-brAtkJ{---blur:test;-webkit-backdrop-filter:var(---blur);backdrop-filter:var(---blur)}}`,
+		)
 	})
 
 	test('Theme', () => {
@@ -260,6 +268,8 @@ describe('Basic', () => {
 			},
 		})
 
-		expect(getCssText()).toBe(`--sxs{--sxs:0 t-kfidiM}@media{:root,.t-kfidiM{--colors-red:Crimson;--colors-blue:DodgerBlue}}`)
+		expect(getCssText()).toBe(
+			`--sxs{--sxs:0 t-kfidiM}@media{:root,.t-kfidiM{--colors-red:Crimson;--colors-blue:DodgerBlue}}`,
+		)
 	})
 })

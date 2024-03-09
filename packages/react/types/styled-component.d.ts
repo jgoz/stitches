@@ -1,33 +1,24 @@
 import type * as React from 'react'
 import type * as Util from './util.js'
 
-
-export type IntrinsicElementsKeys = keyof JSX.IntrinsicElements;
+export type IntrinsicElementsKeys = keyof JSX.IntrinsicElements
 
 /** Returns a new Styled Component. */
-export interface StyledComponent<
-	Type = 'span',
-	Props = {},
-	Media = {},
-	CSS = {}
-> extends React.ForwardRefExoticComponent<
-	Util.Assign<
-		Type extends IntrinsicElementsKeys | React.ComponentType<any>
-			? React.ComponentPropsWithRef<Type>
-		: never,
-		TransformProps<Props, Media> & { css?: CSS }
-	>
-> {
+export interface StyledComponent<Type = 'span', Props = {}, Media = {}, CSS = {}>
+	extends React.ForwardRefExoticComponent<
+		Util.Assign<
+			Type extends IntrinsicElementsKeys | React.ComponentType<any> ? React.ComponentPropsWithRef<Type> : never,
+			TransformProps<Props, Media> & { css?: CSS }
+		>
+	> {
 	(
 		props: Util.Assign<
-			Type extends IntrinsicElementsKeys | React.ComponentType<any>
-				? React.ComponentPropsWithRef<Type>
-			: {},
+			Type extends IntrinsicElementsKeys | React.ComponentType<any> ? React.ComponentPropsWithRef<Type> : {},
 			TransformProps<Props, Media> & {
-				as?: never,
+				as?: never
 				css?: CSS
 			}
-		>
+		>,
 	): React.ReactElement | null
 
 	<
@@ -38,12 +29,12 @@ export interface StyledComponent<
 		props: Util.Assign<
 			React.ComponentPropsWithRef<As extends IntrinsicElementsKeys | React.ComponentType<any> ? As : never>,
 			TransformProps<Util.Assign<InnerProps, Props>, Media> & {
-				as?: As,
+				as?: As
 				css?: {
 					[K in keyof C]: K extends keyof CSS ? CSS[K] : never
 				}
 			}
-		>
+		>,
 	): React.ReactElement | null
 
 	className: string
@@ -55,21 +46,13 @@ export interface StyledComponent<
 }
 
 /** Returns a new CSS Component. */
-export interface CssComponent<
-	Type = 'span',
-	Props = {},
-	Media = {},
-	CSS = {}
-> {
+export interface CssComponent<Type = 'span', Props = {}, Media = {}, CSS = {}> {
 	(
-		props?:
-			& TransformProps<Props, Media>
-			& {
-				css?: CSS
-			}
-			& {
-				[name in number | string]: any
-			}
+		props?: TransformProps<Props, Media> & {
+			css?: CSS
+		} & {
+			[name in number | string]: any
+		},
 	): string & {
 		className: string
 		selector: string
@@ -85,17 +68,13 @@ export interface CssComponent<
 }
 
 export type TransformProps<Props, Media> = {
-	[K in keyof Props]: (
+	[K in keyof Props]:
 		| Props[K]
-		| (
-			& {
+		| ({
 				[KMedia in Util.Prefixed<'@', 'initial' | keyof Media>]?: Props[K]
-			}
-			& {
+		  } & {
 				[KMedia in string]: Props[K]
-			}
-		)
-	)
+		  })
 }
 
 /** Unique symbol used to reference the type of a Styled Component. */
@@ -121,43 +100,28 @@ type IntrinsicElement<TagName> = TagName extends IntrinsicElementsKeys ? TagName
 
 /** Returns a ForwardRef component. */
 type ForwardRefExoticComponent<Type, Props> = React.ForwardRefExoticComponent<
-	Util.Assign<
-		Type extends React.ElementType
-			? React.ComponentPropsWithRef<Type>
-		: never,
-		Props & { as?: Type }
-	>
+	Util.Assign<Type extends React.ElementType ? React.ComponentPropsWithRef<Type> : never, Props & { as?: Type }>
 >
 
 /** Returns the first Styled Component type from the given array of compositions. */
-export type StyledComponentType<T extends any[]> = (
-	T[0] extends never
-		? 'span'
+export type StyledComponentType<T extends any[]> = T[0] extends never
+	? 'span'
 	: T[0] extends string
 		? T[0]
-	: T[0] extends (props: any) => any
-		? T[0]
-	: T[0] extends { [$$StyledComponentType]: unknown }
-		? T[0][$$StyledComponentType]
-	: T extends [lead: any, ...tail: infer V]
-		? StyledComponentType<V>
-	: never
-)
+		: T[0] extends (props: any) => any
+			? T[0]
+			: T[0] extends { [$$StyledComponentType]: unknown }
+				? T[0][$$StyledComponentType]
+				: T extends [lead: any, ...tail: infer V]
+					? StyledComponentType<V>
+					: never
 
 /** Returns the cumulative variants from the given array of compositions. */
-export type StyledComponentProps<T extends any[]> = (
-	& (
-		$$StyledComponentProps extends keyof T[0]
-			? T[0][$$StyledComponentProps]
-		: T[0] extends { variants: { [name: string]: unknown } }
-			? {
+export type StyledComponentProps<T extends any[]> = ($$StyledComponentProps extends keyof T[0]
+	? T[0][$$StyledComponentProps]
+	: T[0] extends { variants: { [name: string]: unknown } }
+		? {
 				[K in keyof T[0]['variants']]?: Util.Widen<keyof T[0]['variants'][K]>
 			}
-		: {}
-	)
-	& (
-		T extends [lead: any, ...tail: infer V]
-			? StyledComponentProps<V>
-		: {}
-	)
-)
+		: {}) &
+	(T extends [lead: any, ...tail: infer V] ? StyledComponentProps<V> : {})

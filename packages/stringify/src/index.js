@@ -2,7 +2,9 @@ import { toKebabCase } from './toCase.js'
 import { getResolvedSelectors } from './getResolvedSelectors.js'
 import { isArray } from './Array.js'
 
-const { prototype: { toString } } = Object
+const {
+	prototype: { toString },
+} = Object
 
 /** Comma matcher outside rounded brackets. */
 const comma = /\s*,\s*(?![^()]*\))/
@@ -28,7 +30,12 @@ export const stringify = (
 					const next = replacer(name, data, style)
 
 					if (next !== null) {
-						cssText += typeof next === 'object' && next ? parse(next, selectors, conditions, name, data) : next == null ? '' : next
+						cssText +=
+							typeof next === 'object' && next
+								? parse(next, selectors, conditions, name, data)
+								: next == null
+									? ''
+									: next
 
 						continue each
 					}
@@ -45,7 +52,11 @@ export const stringify = (
 
 					const usedName = Object(name)
 
-					const nextSelectors = isAtRuleLike ? selectors : selectors.length ? getResolvedSelectors(selectors, name.split(comma)) : name.split(comma)
+					const nextSelectors = isAtRuleLike
+						? selectors
+						: selectors.length
+							? getResolvedSelectors(selectors, name.split(comma))
+							: name.split(comma)
 
 					cssText += parse(data, nextSelectors, isAtRuleLike ? conditions.concat(usedName) : conditions)
 

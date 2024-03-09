@@ -4,15 +4,17 @@ const config = {
 	utils: {
 		background: (value: boolean | PropertyValue<'background'>) => {
 			if (typeof value === 'boolean') {
-				return value ? {
-					background: 'red'
-				} : {}
+				return value
+					? {
+							background: 'red',
+						}
+					: {}
 			} else {
 				return {
-					background: value
+					background: value,
 				}
 			}
-		}
+		},
 	},
 }
 
@@ -20,44 +22,44 @@ const { css, globalCss } = createStitches(config)
 
 globalCss({
 	html: {
-		background: true
+		background: true,
 	},
 	body: {
-		background: 'green'
+		background: 'green',
 	},
 })
 
 const Component = css({
-	background: true,
+	'background': true,
 	'> *': {
-		background: 'green'
-	}
+		background: 'green',
+	},
 })
 
 Component({
-	background: 'green',
+	'background': 'green',
 	'> *': {
-		background: true
-	}
+		background: true,
+	},
 })
 
 css(Component, {
-	background: 'green'
+	background: 'green',
 })
 
 css(Component, {
-	background: true
+	background: true,
 })
 
 const style: CSS = {
 	// @ts-expect-error
-	background: true
+	background: true,
 }
 
 const style2: CSS<typeof config> = {
-	background: true
+	background: true,
 }
 
 const style3: CSS<typeof config> = {
-	background: 'green'
+	background: 'green',
 }

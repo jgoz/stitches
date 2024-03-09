@@ -9,7 +9,14 @@ export const toPolyfilledValue = {
 	backgroundClip: (d) => ({ WebkitBackgroundClip: d, backgroundClip: d }),
 	boxDecorationBreak: (d) => ({ WebkitBoxDecorationBreak: d, boxDecorationBreak: d }),
 	clipPath: (d) => ({ WebkitClipPath: d, clipPath: d }),
-	content: (d) => ({ content: d.includes('"') || d.includes("'") || /^([A-Za-z]+\([^]*|[^]*-quote|inherit|initial|none|normal|revert|unset)$/.test(d) ? d : `"${d}"` }),
+	content: (d) => ({
+		content:
+			d.includes('"') ||
+			d.includes("'") ||
+			/^([A-Za-z]+\([^]*|[^]*-quote|inherit|initial|none|normal|revert|unset)$/.test(d)
+				? d
+				: `"${d}"`,
+	}),
 	hyphens: (d) => ({ WebkitHyphens: d, hyphens: d }),
 	maskImage: (d) => ({ WebkitMaskImage: d, maskImage: d }),
 	maskSize: (d) => ({ WebkitMaskSize: d, maskSize: d }),

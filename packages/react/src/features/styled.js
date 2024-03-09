@@ -29,7 +29,12 @@ export const createStyledFunction = ({ config, sheet }) =>
 				forwardProps.ref = ref
 
 				if (deferredInjector) {
-					return React.createElement(React.Fragment, null, React.createElement(Type, forwardProps), React.createElement(deferredInjector, null))
+					return React.createElement(
+						React.Fragment,
+						null,
+						React.createElement(Type, forwardProps),
+						React.createElement(deferredInjector, null),
+					)
 				}
 
 				return React.createElement(Type, forwardProps)
@@ -38,7 +43,8 @@ export const createStyledFunction = ({ config, sheet }) =>
 			const toString = () => cssComponent.selector
 
 			styledComponent.className = cssComponent.className
-			styledComponent.displayName = displayName || `Styled.${DefaultType.displayName || DefaultType.name || DefaultType}`
+			styledComponent.displayName =
+				displayName || `Styled.${DefaultType.displayName || DefaultType.name || DefaultType}`
 			styledComponent.selector = cssComponent.selector
 			styledComponent.toString = toString
 			styledComponent[internal] = cssComponent[internal]
@@ -47,11 +53,13 @@ export const createStyledFunction = ({ config, sheet }) =>
 		}
 
 		const styled = (...args) => _styled(args)
-	
-		styled.withConfig = (componentConfig) => (...args) => {
-			const cssWithConfig = cssFunction.withConfig(componentConfig)
-			return _styled(args, cssWithConfig, componentConfig)
-		}
+
+		styled.withConfig =
+			(componentConfig) =>
+			(...args) => {
+				const cssWithConfig = cssFunction.withConfig(componentConfig)
+				return _styled(args, cssWithConfig, componentConfig)
+			}
 
 		return styled
 	})

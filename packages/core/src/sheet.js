@@ -124,13 +124,22 @@ export const createSheet = (/** @type {DocumentOrShadowRoot} */ root) => {
 					type,
 					cssRules: [],
 					insertRule(cssText, index) {
-						this.cssRules.splice(index, 0, createCSSMediaRule(cssText, {
-							import: 3,
-							undefined: 1
-						}[(cssText.toLowerCase().match(/^@([a-z]+)/) || [])[1]] || 4))
+						this.cssRules.splice(
+							index,
+							0,
+							createCSSMediaRule(
+								cssText,
+								{
+									import: 3,
+									undefined: 1,
+								}[(cssText.toLowerCase().match(/^@([a-z]+)/) || [])[1]] || 4,
+							),
+						)
 					},
 					get cssText() {
-						return sourceCssText === '@media{}' ? `@media{${[].map.call(this.cssRules, (cssRule) => cssRule.cssText).join('')}}` : sourceCssText
+						return sourceCssText === '@media{}'
+							? `@media{${[].map.call(this.cssRules, (cssRule) => cssRule.cssText).join('')}}`
+							: sourceCssText
 					},
 				})
 			}

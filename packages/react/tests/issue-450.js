@@ -19,7 +19,7 @@ describe('Issue #450', () => {
 		const Happy = styled('div', {
 			'--is-happy': true,
 
-			variants: {
+			'variants': {
 				fulfilled: {
 					positively: {
 						'--is-fulfilled-positively': true,
@@ -32,30 +32,26 @@ describe('Issue #450', () => {
 				},
 			},
 
-			defaultVariants: {
+			'defaultVariants': {
 				fulfilled: 'positively',
 				satisfied: 'definitely',
 			},
 		})
 
-		expect(
-			RenderOf(Happy, null).props.className
-		).toBe(
-			`c-fEpFmO c-fEpFmO-cfZmSQ-fulfilled-positively c-fEpFmO-FgYNE-satisfied-definitely`
+		expect(RenderOf(Happy, null).props.className).toBe(
+			`c-fEpFmO c-fEpFmO-cfZmSQ-fulfilled-positively c-fEpFmO-FgYNE-satisfied-definitely`,
 		)
 
-		expect(
-			getCssText()
-		).toBe(
+		expect(getCssText()).toBe(
 			// composition styles
 			`--sxs{--sxs:2 c-fEpFmO}@media{` +
 				`.c-fEpFmO{--is-happy:true}` +
-			`}` +
-			// variant styles
-			`--sxs{--sxs:3 c-fEpFmO-cfZmSQ-fulfilled-positively c-fEpFmO-FgYNE-satisfied-definitely}@media{` +
+				`}` +
+				// variant styles
+				`--sxs{--sxs:3 c-fEpFmO-cfZmSQ-fulfilled-positively c-fEpFmO-FgYNE-satisfied-definitely}@media{` +
 				`.c-fEpFmO-cfZmSQ-fulfilled-positively{--is-fulfilled-positively:true}` +
 				`.c-fEpFmO-FgYNE-satisfied-definitely{--is-satisfied-definitely:true}` +
-			`}`
+				`}`,
 		)
 	})
 
@@ -125,32 +121,34 @@ describe('Issue #450', () => {
 		expect(RenderOf(Tile).props.className).toBe(tileComponentClass)
 
 		// renders { appearance: "primary"; color: "lightBlue" }, the { color: "lightBlue" } variant will render
-		expect(RenderOf(Tile, { color: 'lightBlue' }).props.className).toBe(`${tileComponentClass} ${variantLightBlueClass}`)
+		expect(RenderOf(Tile, { color: 'lightBlue' }).props.className).toBe(
+			`${tileComponentClass} ${variantLightBlueClass}`,
+		)
 
 		// Compound variants
 
 		// renders { appearance: "secondary"; color: "lightBlue" }, the { appearance: "secondary" } variant will render
-		expect(RenderOf(Tile, { appearance: 'secondary' }).props.className).toBe(`${tileComponentClass} ${variantAppearanceSecondaryClass}`)
+		expect(RenderOf(Tile, { appearance: 'secondary' }).props.className).toBe(
+			`${tileComponentClass} ${variantAppearanceSecondaryClass}`,
+		)
 
 		// renders { appearance: "secondary"; color: "lightBlue" }, the { appearance: "secondary" }, { color: "lightBlue" } variants will render
-		expect(RenderOf(Tile, { appearance: 'secondary', color: 'lightBlue' }).props.className).toBe(`${tileComponentClass} ${variantAppearanceSecondaryClass} ${variantLightBlueClass} ${variantCompoundClass}`)
+		expect(RenderOf(Tile, { appearance: 'secondary', color: 'lightBlue' }).props.className).toBe(
+			`${tileComponentClass} ${variantAppearanceSecondaryClass} ${variantLightBlueClass} ${variantCompoundClass}`,
+		)
 
 		// Restyled compound variants (compound is activated implicitly by defaultVariants)
 
 		// appearance: primary, color: red, +
-		expect(
-			RenderOf(RoundedTile).props.className
-		).toBe(
-			`${tileComponentClass} ${roundedTileComponentClass} ${variantAppearanceSecondaryClass} ${variantLightBlueClass} ${variantCompoundClass}`
+		expect(RenderOf(RoundedTile).props.className).toBe(
+			`${tileComponentClass} ${roundedTileComponentClass} ${variantAppearanceSecondaryClass} ${variantLightBlueClass} ${variantCompoundClass}`,
 		)
 
 		// Restyled compound variants (compound is activated explicitly by props)
 
 		// appearance: secondary, compound * 2, +
-		expect(
-			RenderOf(RoundedTile, { appearance: 'secondary', color: 'lightBlue' }).props.className
-		).toBe(
-			`${tileComponentClass} ${roundedTileComponentClass} ${variantAppearanceSecondaryClass} ${variantLightBlueClass} ${variantCompoundClass}`
+		expect(RenderOf(RoundedTile, { appearance: 'secondary', color: 'lightBlue' }).props.className).toBe(
+			`${tileComponentClass} ${roundedTileComponentClass} ${variantAppearanceSecondaryClass} ${variantLightBlueClass} ${variantCompoundClass}`,
 		)
 	})
 })

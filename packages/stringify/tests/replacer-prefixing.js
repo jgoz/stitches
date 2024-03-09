@@ -7,9 +7,9 @@ describe('replacer (prefixing)', () => {
 			property === 'tabSize'
 				? { MozTabSize: value, [property]: value }
 				: // add common prefixes for Safari 14
-				/^(appearance|backface-visibility|background-clip|clip-path|hyphens|mask-image|user-select)$/.test(property)
-				? { ['-webkit-' + property]: value, [property]: value }
-				: null
+					/^(appearance|backface-visibility|background-clip|clip-path|hyphens|mask-image|user-select)$/.test(property)
+					? { ['-webkit-' + property]: value, [property]: value }
+					: null
 
 		expect(
 			stringify(
@@ -29,11 +29,11 @@ describe('replacer (prefixing)', () => {
 				'-webkit-appearance:none;' +
 				'appearance:none;' +
 				'color:black;' +
-			'}' +
-			'textarea{' +
+				'}' +
+				'textarea{' +
 				'-moz-tab-size:2;' +
 				'tab-size:2;' +
-			'}',
+				'}',
 		)
 	})
 })

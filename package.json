@@ -139,7 +139,7 @@
   "prettier": {
     "arrowParens": "always",
     "bracketSpacing": true,
-    "printWidth": 240,
+    "printWidth": 120,
     "quoteProps": "consistent",
     "semi": false,
     "singleQuote": true,

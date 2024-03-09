@@ -1,7 +1,7 @@
-const stringifyReplacer = (name, data) => (typeof data === 'function' ? { '()': Function.prototype.toString.call(data) } : data)
+const stringifyReplacer = (name, data) =>
+	typeof data === 'function' ? { '()': Function.prototype.toString.call(data) } : data
 
 const stringify = (value) => JSON.stringify(value, stringifyReplacer)
-
 
 export const createMemo = () => {
 	const cache = Object.create(null)

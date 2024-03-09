@@ -13,57 +13,68 @@ const createCssFunctionMap = createMemo()
 
 /** Returns a function that applies component styles. */
 export const createCssFunction = (config, sheet) =>
-  createCssFunctionMap(config, () => {
-    const _css = (args, componentConfig = {}) => {
-      let internals = {
-        type: null,
-        composers: new Set(),
-      }
+	createCssFunctionMap(config, () => {
+		const _css = (args, componentConfig = {}) => {
+			let internals = {
+				type: null,
+				composers: new Set(),
+			}
 
-      for (const arg of args) {
-        // skip any void argument
-        if (arg == null) continue
+			for (const arg of args) {
+				// skip any void argument
+				if (arg == null) continue
 
-        // conditionally extend the component
-        if (arg[internal]) {
-          if (internals.type == null) internals.type = arg[internal].type
+				// conditionally extend the component
+				if (arg[internal]) {
+					if (internals.type == null) internals.type = arg[internal].type
 
-          for (const composer of arg[internal].composers) {
-            internals.composers.add(composer)
-          }
-        }
+					for (const composer of arg[internal].composers) {
+						internals.composers.add(composer)
+					}
+				}
 
-        // otherwise, conditionally define the component type
-        else if (arg.constructor !== Object || arg.$$typeof) {
-          if (internals.type == null) internals.type = arg
-        }
+				// otherwise, conditionally define the component type
+				else if (arg.constructor !== Object || arg.$$typeof) {
+					if (internals.type == null) internals.type = arg
+				}
 
-        // otherwise, add a new composer to this component
-        else {
-          internals.composers.add(createComposer(arg, config, componentConfig))
-        }
-      }
+				// otherwise, add a new composer to this component
+				else {
+					internals.composers.add(createComposer(arg, config, componentConfig))
+				}
+			}
 
-      // set the component type if none was set
-      if (internals.type == null) internals.type = 'span'
-      if (!internals.composers.size) internals.composers.add(['PJLV', {}, [], [], {}, []])
+			// set the component type if none was set
+			if (internals.type == null) internals.type = 'span'
+			if (!internals.composers.size) internals.composers.add(['PJLV', {}, [], [], {}, []])
 
-      return createRenderer(config, internals, sheet, componentConfig)
-    }
+			return createRenderer(config, internals, sheet, componentConfig)
+		}
 
 		const css = (...args) => _css(args)
 
-		css.withConfig = (componentConfig) => (...args) => _css(args, componentConfig)
+		css.withConfig =
+			(componentConfig) =>
+			(...args) =>
+				_css(args, componentConfig)
 
-    return css
-  })
-
+		return css
+	})
 
 /** Creates a composer from a configuration object. */
-const createComposer = ({ variants: initSingularVariants, compoundVariants: initCompoundVariants, defaultVariants: initDefaultVariants, ...style },  config, {componentId, displayName}) => {
+const createComposer = (
+	{
+		variants: initSingularVariants,
+		compoundVariants: initCompoundVariants,
+		defaultVariants: initDefaultVariants,
+		...style
+	},
+	config,
+	{ componentId, displayName },
+) => {
 	/** @type {string} Composer Unique Identifier. @see `{CONFIG_PREFIX}-?c-{STYLE_HASH}` */
 	const hash = componentId || toHash(style)
-	const componentNamePrefix =  displayName ? ('c-' + displayName +'') : 'c'
+	const componentNamePrefix = displayName ? 'c-' + displayName + '' : 'c'
 	const className = `${toTailDashed(config.prefix)}${componentNamePrefix}-${hash}`
 
 	const singularVariants = []
@@ -104,7 +115,7 @@ const createComposer = ({ variants: initSingularVariants, compoundVariants: init
 		for (const compoundVariant of initCompoundVariants) {
 			let { css: vStyle, ...vMatch } = compoundVariant
 
-			vStyle = typeof vStyle === 'object' && vStyle || {}
+			vStyle = (typeof vStyle === 'object' && vStyle) || {}
 
 			// serialize all compound variant pairs
 			for (const name in vMatch) vMatch[name] = String(vMatch[name])
@@ -115,24 +126,22 @@ const createComposer = ({ variants: initSingularVariants, compoundVariants: init
 		}
 	}
 
-	return  ([className, style, singularVariants, compoundVariants, prefilledVariants, undefinedVariants])
+	return [className, style, singularVariants, compoundVariants, prefilledVariants, undefinedVariants]
 }
 
 const createRenderer = (config, internals, sheet, { shouldForwardStitchesProp }) => {
-	const [
-		baseClassName,
-		baseClassNames,
-		prefilledVariants,
-		undefinedVariants
-	] = getPreparedDataFromComposers(internals.composers)
+	const [baseClassName, baseClassNames, prefilledVariants, undefinedVariants] = getPreparedDataFromComposers(
+		internals.composers,
+	)
 
-	const deferredInjector = typeof internals.type === 'function' || !!internals.type.$$typeof ? createRulesInjectionDeferrer(sheet) : null
+	const deferredInjector =
+		typeof internals.type === 'function' || !!internals.type.$$typeof ? createRulesInjectionDeferrer(sheet) : null
 	const injectionTarget = (deferredInjector || sheet).rules
 
 	const selector = `.${baseClassName}${baseClassNames.length > 1 ? `:where(.${baseClassNames.slice(1).join('.')})` : ``}`
 
 	const render = (props) => {
-		props = typeof props === 'object' && props || empty
+		props = (typeof props === 'object' && props) || empty
 
 		// 1. we cannot mutate `props`
 		// 2. we delete variant props
@@ -155,18 +164,14 @@ const createRenderer = (config, internals, sheet, { shouldForwardStitchesProp })
 				} else {
 					data = String(data)
 
-					variantProps[name] = (
-						data === 'undefined' && !undefinedVariants.has(name)
-							? prefilledVariants[name]
-						: data
-					)
+					variantProps[name] = data === 'undefined' && !undefinedVariants.has(name) ? prefilledVariants[name] : data
 				}
 			} else {
 				variantProps[name] = prefilledVariants[name]
 			}
 		}
 
-		const classSet = new Set([ ...baseClassNames ])
+		const classSet = new Set([...baseClassNames])
 
 		// 1. builds up the variants (fills in defaults, calculates @initial on responsive, etc.)
 		// 2. iterates composers
@@ -195,8 +200,8 @@ const createRenderer = (config, internals, sheet, { shouldForwardStitchesProp })
 
 					classSet.add(variantClassName)
 
-					const groupCache = (isResponsive ? sheet.rules.resonevar : sheet.rules.onevar ).cache
-					/* 
+					const groupCache = (isResponsive ? sheet.rules.resonevar : sheet.rules.onevar).cache
+					/*
 					 * make sure that normal variants are injected before responsive ones
 					 * @see {@link https://github.com/stitchesjs/stitches/issues/737|github}
 					 */
@@ -233,7 +238,7 @@ const createRenderer = (config, internals, sheet, { shouldForwardStitchesProp })
 		// apply css property styles
 		const css = forwardProps.css
 		if (typeof css === 'object' && css) {
-			if (!shouldForwardStitchesProp?.('css')) delete forwardProps.css 
+			if (!shouldForwardStitchesProp?.('css')) delete forwardProps.css
 			/** @type {string} Inline Class Unique Identifier. @see `{COMPOSER_UUID}-i{VARIANT_UUID}-css` */
 			const iClass = `${baseClassName}-i${toHash(css)}-css`
 
@@ -248,11 +253,13 @@ const createRenderer = (config, internals, sheet, { shouldForwardStitchesProp })
 			}
 		}
 
-		for (const propClassName of String(props.className || '').trim().split(/\s+/)) {
+		for (const propClassName of String(props.className || '')
+			.trim()
+			.split(/\s+/)) {
 			if (propClassName) classSet.add(propClassName)
 		}
 
-		const renderedClassName = forwardProps.className = [ ...classSet ].join(' ')
+		const renderedClassName = (forwardProps.className = [...classSet].join(' '))
 
 		const renderedToString = () => renderedClassName
 
@@ -303,27 +310,17 @@ const getPreparedDataFromComposers = (composers) => {
 
 		for (const name in prefilledVariants) {
 			const data = prefilledVariants[name]
-			if (combinedPrefilledVariants[name] === undefined || data !== 'undefined' || undefinedVariants.includes(data)) combinedPrefilledVariants[name] = data
+			if (combinedPrefilledVariants[name] === undefined || data !== 'undefined' || undefinedVariants.includes(data))
+				combinedPrefilledVariants[name] = data
 		}
 	}
 
-	const preparedData = [
-		baseClassName,
-		baseClassNames,
-		combinedPrefilledVariants,
-		new Set(combinedUndefinedVariants)
-	]
+	const preparedData = [baseClassName, baseClassNames, combinedPrefilledVariants, new Set(combinedUndefinedVariants)]
 
 	return preparedData
 }
 
-const getTargetVariantsToAdd = (
-	targetVariants,
-	variantProps,
-	media,
-	isCompoundVariant,
-) => {
-	
+const getTargetVariantsToAdd = (targetVariants, variantProps, media, isCompoundVariant) => {
 	const targetVariantsToAdd = []
 
 	targetVariants: for (let [vMatch, vStyle, vEmpty] of targetVariants) {
@@ -354,11 +351,13 @@ const getTargetVariantsToAdd = (
 				for (const query in pPair) {
 					if (vPair === String(pPair[query])) {
 						if (query !== '@initial') {
-							// check if the cleanQuery is in the media config and then we push the resulting media query to the matchedQueries array, 
+							// check if the cleanQuery is in the media config and then we push the resulting media query to the matchedQueries array,
 							// if not, we remove the @media from the beginning and push it to the matched queries which then will be resolved a few lines down
 							// when we finish working on this variant and want wrap the vStyles with the matchedQueries
-							const cleanQuery = query.slice(1);
-							(matchedQueries = matchedQueries || []).push(cleanQuery in media ? media[cleanQuery] : query.replace(/^@media ?/, ''))
+							const cleanQuery = query.slice(1)
+							;(matchedQueries = matchedQueries || []).push(
+								cleanQuery in media ? media[cleanQuery] : query.replace(/^@media ?/, ''),
+							)
 							isResponsive = true
 						}
 
@@ -380,7 +379,11 @@ const getTargetVariantsToAdd = (
 			// non-matches
 			else continue targetVariants
 		}
-		(targetVariantsToAdd[vOrder] = targetVariantsToAdd[vOrder] || []).push([isCompoundVariant ? `cv` : `${vName}-${vMatch[vName]}`, vStyle, isResponsive])
+		;(targetVariantsToAdd[vOrder] = targetVariantsToAdd[vOrder] || []).push([
+			isCompoundVariant ? `cv` : `${vName}-${vMatch[vName]}`,
+			vStyle,
+			isResponsive,
+		])
 	}
 
 	return targetVariantsToAdd

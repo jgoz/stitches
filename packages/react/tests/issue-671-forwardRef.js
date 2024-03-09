@@ -7,7 +7,9 @@ describe('Issue #671 - forwardRef', () => {
 		const { styled, getCssText } = createStitches()
 
 		const StyledBase = styled('div', { color: 'black' })
-		const ForwardRefReactComponent = React.forwardRef((props, ref) => React.createElement(StyledBase, { ...props, ref }))
+		const ForwardRefReactComponent = React.forwardRef((props, ref) =>
+			React.createElement(StyledBase, { ...props, ref }),
+		)
 		const StitshcesComponentExtendingForwardRefReactComponent = styled(ForwardRefReactComponent, { color: 'white' })
 
 		const App = () => {

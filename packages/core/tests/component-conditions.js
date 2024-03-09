@@ -19,7 +19,7 @@ describe('Component Medias', () => {
 			`--sxs{--sxs:2 c-jEGvho}@media{` +
 				`.c-jEGvho{font-size:16px}` +
 				`@media (min-width:768px){.c-jEGvho{font-size:24px}}` +
-			`}`,
+				`}`,
 		)
 	})
 })

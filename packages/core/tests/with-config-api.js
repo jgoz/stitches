@@ -49,7 +49,9 @@ describe('css.withConfig', () => {
 
 		expect(componentToRender).toBeInstanceOf(Function)
 		expect(className).toBe('c-my-cool-display-name-gmqXFB')
-		expect(cssString).toBe(`--sxs{--sxs:2 c-my-cool-display-name-gmqXFB}@media{.c-my-cool-display-name-gmqXFB{color:red}}`)
+		expect(cssString).toBe(
+			`--sxs{--sxs:2 c-my-cool-display-name-gmqXFB}@media{.c-my-cool-display-name-gmqXFB{color:red}}`,
+		)
 	})
 
 	test('Creates the correct className with a displayName and componentId', () => {
@@ -65,7 +67,9 @@ describe('css.withConfig', () => {
 
 		expect(componentToRender).toBeInstanceOf(Function)
 		expect(className).toBe('c-my-cool-display-name-cool-id')
-		expect(cssString).toBe(`--sxs{--sxs:2 c-my-cool-display-name-cool-id}@media{.c-my-cool-display-name-cool-id{color:red}}`)
+		expect(cssString).toBe(
+			`--sxs{--sxs:2 c-my-cool-display-name-cool-id}@media{.c-my-cool-display-name-cool-id{color:red}}`,
+		)
 	})
 
 	test('Creates the correct className with a componentConfig while extending components', () => {
@@ -79,7 +83,9 @@ describe('css.withConfig', () => {
 		expect(className).toBe('c-component-to-extend-id c-cool-component-id')
 		const cssString = getCssText()
 
-		expect(cssString).toBe(`--sxs{--sxs:2 c-component-to-extend-id c-cool-component-id}@media{.c-component-to-extend-id{color:red}.c-cool-component-id{color:blue}}`)
+		expect(cssString).toBe(
+			`--sxs{--sxs:2 c-component-to-extend-id c-cool-component-id}@media{.c-component-to-extend-id{color:red}.c-cool-component-id{color:blue}}`,
+		)
 	})
 })
 
@@ -98,7 +104,7 @@ describe('shouldForwardStitchesProp', () => {
 			},
 		})
 
-		const {props: firstComponentProps} = componentOne({ variant: 'red', css: {} })
+		const { props: firstComponentProps } = componentOne({ variant: 'red', css: {} })
 		expect(firstComponentProps.variant).toBe(undefined)
 		expect(firstComponentProps.css).toEqual(undefined)
 
@@ -114,7 +120,7 @@ describe('shouldForwardStitchesProp', () => {
 			},
 		})
 
-		const {props: secondComponentProps} = componentTwo({ variant: 'red', css: {} })
+		const { props: secondComponentProps } = componentTwo({ variant: 'red', css: {} })
 		expect(secondComponentProps.variant).toBe('red')
 		expect(secondComponentProps.css).toEqual({})
 	})

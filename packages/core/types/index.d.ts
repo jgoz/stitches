@@ -4,7 +4,7 @@ import type * as Config from './config.js'
 import type * as CSSUtil from './css-util.js'
 import type * as StyledComponent from './styled-component.js'
 
-export { $$PropertyValue, $$ScaleValue, $$ThemeValue} from './css-util.js'
+export { $$PropertyValue, $$ScaleValue, $$ThemeValue } from './css-util.js'
 export type CreateStitches = Config.CreateStitches
 export type CSSProperties = CSSUtil.CSSProperties
 export type DefaultThemeMap = Config.DefaultThemeMap
@@ -18,48 +18,37 @@ export type CSS<
 		themeMap?: {}
 		utils?: {}
 	} = {
-		media: {},
-		theme: {},
-		themeMap: {},
+		media: {}
+		theme: {}
+		themeMap: {}
 		utils: {}
-	}
-> = CSSUtil.CSS<
-	Config['media'],
-	Config['theme'],
-	Config['themeMap'],
-	Config['utils']
->
+	},
+> = CSSUtil.CSS<Config['media'], Config['theme'], Config['themeMap'], Config['utils']>
 
 /** Returns the properties, attributes, and children expected by a component. */
-export type ComponentProps<Component> = Component extends ((...args: any[]) => any) ? Parameters<Component>[0] : never
+export type ComponentProps<Component> = Component extends (...args: any[]) => any ? Parameters<Component>[0] : never
 
 /** Returns a type that expects a value to be a kind of CSS property value. */
-export type PropertyValue<Property extends keyof CSSUtil.CSSProperties, Config = null> = (
-	Config extends null
-		? CSSUtil.WithPropertyValue<Property>
+export type PropertyValue<Property extends keyof CSSUtil.CSSProperties, Config = null> = Config extends null
+	? CSSUtil.WithPropertyValue<Property>
 	: Config extends { [K: string]: any }
-		? CSSUtil.CSS<
-			Config['media'],
-			Config['theme'],
-			Config['themeMap'],
-			Config['utils']
-		>[Property]
-	: never
-)
+		? CSSUtil.CSS<Config['media'], Config['theme'], Config['themeMap'], Config['utils']>[Property]
+		: never
 
 /** Returns a type that expects a value to be a kind of theme scale value. */
-export type ScaleValue<Scale, Config = null> = (
-	Config extends null
-		? CSSUtil.WithScaleValue<Scale>
+export type ScaleValue<Scale, Config = null> = Config extends null
+	? CSSUtil.WithScaleValue<Scale>
 	: Config extends { [K: string]: any }
 		? Scale extends keyof Config['theme']
 			? `$${string & keyof Config['theme'][Scale]}`
+			: never
 		: never
-	: never
-)
 
 /** Returns a type that suggests variants from a component as possible prop values. */
-export type VariantProps<Component extends {[key: symbol | string]: any}> = StyledComponent.TransformProps<Component[StyledComponent.$$StyledComponentProps], Component[StyledComponent.$$StyledComponentMedia]>
+export type VariantProps<Component extends { [key: symbol | string]: any }> = StyledComponent.TransformProps<
+	Component[StyledComponent.$$StyledComponentProps],
+	Component[StyledComponent.$$StyledComponentMedia]
+>
 
 /** Map of CSS properties to token scales. */
 export declare const defaultThemeMap: DefaultThemeMap

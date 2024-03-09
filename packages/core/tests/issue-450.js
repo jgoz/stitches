@@ -19,7 +19,7 @@ describe('Issue #450', () => {
 				defaultVariants: {
 					color: 'red',
 				},
-			});
+			})
 
 			const component2 = css(component1, {
 				variants: {
@@ -33,7 +33,7 @@ describe('Issue #450', () => {
 				defaultVariants: {
 					color: 'orange',
 				},
-			});
+			})
 
 			const component3 = css(component2, {
 				variants: {
@@ -77,7 +77,9 @@ describe('Issue #450', () => {
 			const { component1, getCssText } = getFreshComponents()
 			const render = component1({ color: { '@media (min-width: 640px)': 'blue' } })
 			expect(render.className).toBe(`c-PJLV c-PJLV-gmqXFB-color-red c-PJLV-bBevdw-color-blue`)
-			expect(getCssText()).toBe(`--sxs{--sxs:3 c-PJLV-gmqXFB-color-red}@media{.c-PJLV-gmqXFB-color-red{color:red}}--sxs{--sxs:4 c-PJLV-bBevdw-color-blue}@media{@media (min-width: 640px){.c-PJLV-bBevdw-color-blue{color:blue}}}`)
+			expect(getCssText()).toBe(
+				`--sxs{--sxs:3 c-PJLV-gmqXFB-color-red}@media{.c-PJLV-gmqXFB-color-red{color:red}}--sxs{--sxs:4 c-PJLV-bBevdw-color-blue}@media{@media (min-width: 640px){.c-PJLV-bBevdw-color-blue{color:blue}}}`,
+			)
 		})
 
 		test('Render component2() as orange, inherited from defaultVariants', () => {
@@ -85,7 +87,9 @@ describe('Issue #450', () => {
 			const render = component2()
 
 			expect(render.className).toBe(`c-PJLV c-PJLV-vMTTG-color-orange`)
-			expect(getCssText()).toBe(`--sxs{--sxs:3 c-PJLV-vMTTG-color-orange}@media{.c-PJLV-vMTTG-color-orange{color:orange}}`)
+			expect(getCssText()).toBe(
+				`--sxs{--sxs:3 c-PJLV-vMTTG-color-orange}@media{.c-PJLV-vMTTG-color-orange{color:orange}}`,
+			)
 		})
 
 		test('Render component2({ color: { "@media (width >= 640px)": "blue" } }) as orange then blue, inherited from defaultVariants, assigned from props', () => {
@@ -93,7 +97,11 @@ describe('Issue #450', () => {
 			const render = component2({ color: { '@media (min-width: 640px)': 'blue' } })
 			expect(render.className).toBe(`c-PJLV c-PJLV-bBevdw-color-blue c-PJLV-vMTTG-color-orange`)
 			expect(getCssText()).toBe(
-				`--sxs{--sxs:3 c-PJLV-vMTTG-color-orange}` + `@media{.c-PJLV-vMTTG-color-orange{color:orange}}` + `--sxs{--sxs:4 c-PJLV-bBevdw-color-blue}@media{` + `@media (min-width: 640px){.c-PJLV-bBevdw-color-blue{color:blue}}` + `}`,
+				`--sxs{--sxs:3 c-PJLV-vMTTG-color-orange}` +
+					`@media{.c-PJLV-vMTTG-color-orange{color:orange}}` +
+					`--sxs{--sxs:4 c-PJLV-bBevdw-color-blue}@media{` +
+					`@media (min-width: 640px){.c-PJLV-bBevdw-color-blue{color:blue}}` +
+					`}`,
 			)
 		})
 	})
@@ -105,7 +113,7 @@ describe('Issue #450', () => {
 			const component1 = css({
 				'--component': 1,
 
-				variants: {
+				'variants': {
 					appearance: {
 						primary: {},
 						secondary: { '--appearance': 'secondary' },
@@ -117,7 +125,7 @@ describe('Issue #450', () => {
 					},
 				},
 
-				compoundVariants: [
+				'compoundVariants': [
 					{
 						appearance: 'secondary',
 						color: 'lightBlue',
@@ -127,7 +135,7 @@ describe('Issue #450', () => {
 					},
 				],
 
-				defaultVariants: {
+				'defaultVariants': {
 					appearance: 'primary',
 					color: 'red',
 				},
@@ -159,10 +167,10 @@ describe('Issue #450', () => {
 			expect(getCssText()).toBe(
 				`--sxs{--sxs:2 c-jyxqjt}@media{` +
 					`.c-jyxqjt{--component:1}` +
-				`}` +
-				`--sxs{--sxs:3 c-jyxqjt-ilDyRi-color-lightBlue}@media{` +
+					`}` +
+					`--sxs{--sxs:3 c-jyxqjt-ilDyRi-color-lightBlue}@media{` +
 					`.c-jyxqjt-ilDyRi-color-lightBlue{--color:lightBlue}` +
-				`}`
+					`}`,
 			)
 		})
 
@@ -173,17 +181,19 @@ describe('Issue #450', () => {
 			expect(getCssText()).toBe(
 				`--sxs{--sxs:2 c-jyxqjt}@media{` +
 					`.c-jyxqjt{--component:1}` +
-				`}` +
-				`--sxs{--sxs:3 c-jyxqjt-cOChOn-appearance-secondary}@media{` +
+					`}` +
+					`--sxs{--sxs:3 c-jyxqjt-cOChOn-appearance-secondary}@media{` +
 					`.c-jyxqjt-cOChOn-appearance-secondary{--appearance:secondary}` +
-				`}`
+					`}`,
 			)
 		})
 
 		test('Render component1({ appearance: "secondary", color: "lightBlue" })', () => {
 			const { component1, getCssText } = getFreshComponents()
 			const render = component1({ appearance: 'secondary', color: 'lightBlue' })
-			expect(render.className).toBe(`c-jyxqjt c-jyxqjt-cOChOn-appearance-secondary c-jyxqjt-ilDyRi-color-lightBlue c-jyxqjt-gYqlvA-cv`)
+			expect(render.className).toBe(
+				`c-jyxqjt c-jyxqjt-cOChOn-appearance-secondary c-jyxqjt-ilDyRi-color-lightBlue c-jyxqjt-gYqlvA-cv`,
+			)
 			expect(getCssText()).toBe(
 				`--sxs{--sxs:2 c-jyxqjt}@media{` +
 					`.c-jyxqjt{--component:1}` +
@@ -201,7 +211,9 @@ describe('Issue #450', () => {
 		test('Render component2()', () => {
 			const { component2, getCssText } = getFreshComponents()
 			const render = component2()
-			expect(render.className).toBe(`c-jyxqjt c-dkRcuu c-jyxqjt-cOChOn-appearance-secondary c-jyxqjt-ilDyRi-color-lightBlue c-jyxqjt-gYqlvA-cv`)
+			expect(render.className).toBe(
+				`c-jyxqjt c-dkRcuu c-jyxqjt-cOChOn-appearance-secondary c-jyxqjt-ilDyRi-color-lightBlue c-jyxqjt-gYqlvA-cv`,
+			)
 			expect(getCssText()).toBe(
 				`--sxs{--sxs:2 c-jyxqjt c-dkRcuu}@media{` +
 					`.c-jyxqjt{--component:1}` +
@@ -220,7 +232,9 @@ describe('Issue #450', () => {
 		test('Render component2({ appearance: "secondary", color: "lightBlue" })', () => {
 			const { component2, getCssText } = getFreshComponents()
 			const render = component2({ appearance: 'secondary', color: 'lightBlue' })
-			expect(render.className).toBe(`c-jyxqjt c-dkRcuu c-jyxqjt-cOChOn-appearance-secondary c-jyxqjt-ilDyRi-color-lightBlue c-jyxqjt-gYqlvA-cv`)
+			expect(render.className).toBe(
+				`c-jyxqjt c-dkRcuu c-jyxqjt-cOChOn-appearance-secondary c-jyxqjt-ilDyRi-color-lightBlue c-jyxqjt-gYqlvA-cv`,
+			)
 			expect(getCssText()).toBe(
 				`--sxs{--sxs:2 c-jyxqjt c-dkRcuu}@media{` +
 					`.c-jyxqjt{--component:1}` +

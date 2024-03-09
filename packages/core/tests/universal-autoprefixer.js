@@ -22,7 +22,9 @@ describe('Autoprefixer', () => {
 			},
 		})()
 
-		expect(toString()).toBe('--sxs{--sxs:1 gaCVoe}@media{x-element{-webkit-backface-visibility:visible;backface-visibility:visible}}')
+		expect(toString()).toBe(
+			'--sxs{--sxs:1 gaCVoe}@media{x-element{-webkit-backface-visibility:visible;backface-visibility:visible}}',
+		)
 	})
 
 	test('backgroundClip', () => {
@@ -34,7 +36,9 @@ describe('Autoprefixer', () => {
 			},
 		})()
 
-		expect(toString()).toBe('--sxs{--sxs:1 gIcRdw}@media{x-element{-webkit-background-clip:border-box;background-clip:border-box}}')
+		expect(toString()).toBe(
+			'--sxs{--sxs:1 gIcRdw}@media{x-element{-webkit-background-clip:border-box;background-clip:border-box}}',
+		)
 	})
 
 	test('clipPath', () => {
@@ -46,7 +50,9 @@ describe('Autoprefixer', () => {
 			},
 		})()
 
-		expect(toString()).toBe('--sxs{--sxs:1 ccZNl}@media{x-element{-webkit-clip-path:circle(40%);clip-path:circle(40%)}}')
+		expect(toString()).toBe(
+			'--sxs{--sxs:1 ccZNl}@media{x-element{-webkit-clip-path:circle(40%);clip-path:circle(40%)}}',
+		)
 	})
 
 	test('hyphens', () => {
@@ -94,7 +100,9 @@ describe('Autoprefixer', () => {
 			},
 		})()
 
-		expect(toString()).toBe('--sxs{--sxs:1 gVFtip}@media{x-element{-webkit-text-size-adjust:100%;text-size-adjust:100%}}')
+		expect(toString()).toBe(
+			'--sxs{--sxs:1 gVFtip}@media{x-element{-webkit-text-size-adjust:100%;text-size-adjust:100%}}',
+		)
 	})
 
 	test('userSelect', () => {

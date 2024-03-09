@@ -25,7 +25,7 @@ describe('Composition', () => {
 				`.c-hzkWus{font-size:14px}` +
 				`.c-cQFdVt{font-weight:bold}` +
 				`.c-kngyIZ{font-family:monospace}` +
-			`}`
+				`}`,
 		)
 	})
 
@@ -43,7 +43,7 @@ describe('Composition', () => {
 				`.c-hzkWus{font-size:14px}` +
 				`.c-cQFdVt{font-weight:bold}` +
 				`.c-kngyIZ{font-family:monospace}` +
-			`}`
+				`}`,
 		)
 	})
 })
