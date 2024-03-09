@@ -1,4 +1,4 @@
-import { globalCss } from '@stitches/core'
+import { globalCss } from '@implydata/stitches-core'
 
 void globalCss({
 	"@font-face": {

@@ -1,6 +1,6 @@
 // https://github.com/stitchesjs/stitches/issues/813
-import { createStitches } from '@stitches/core'
-import * as Stitches from '@stitches/core'
+import * as Stitches from '@implydata/stitches-core'
+import { createStitches } from '@implydata/stitches-core'
 
 export const { config, css } = createStitches({
 	theme: {

@@ -1,5 +1,5 @@
 {
-  "name": "@stitches/test",
+  "name": "@implydata/stitches-test",
   "version": "1.3.1-1",
   "type": "module",
   "files": [
@@ -13,7 +13,7 @@
     "build": "tsc --generateTrace traces --incremental false"
   },
   "devDependencies": {
-    "@stitches/react": "1.3.1-0",
+    "@implydata/stitches-react": "1.3.1-0",
     "@typescript-eslint/eslint-plugin": "^1.6.0",
     "@typescript-eslint/parser": "^1.6.0",
     "eslint-config-prettier": "^4.1.0",

@@ -17,7 +17,7 @@ CSS-in-JS with near-zero runtime, SSR, multi-variant support, and a best-in-clas
 Framework-agnostic implementation.
 
 ```sh
-npm install @stitches/core
+npm install @implydata/stitches-core
 ```
 
 [Read more](https://github.com/stitchesjs/stitches/tree/main/packages/core)
@@ -27,7 +27,7 @@ npm install @stitches/core
 React wrapper including the `styled` API.
 
 ```sh
-npm install @stitches/react
+npm install @implydata/stitches-react
 ```
 
 [Read more](https://github.com/stitchesjs/stitches/tree/main/packages/react)
