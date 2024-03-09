@@ -17,11 +17,14 @@
   "unpkg": "dist/index.global.js",
   "exports": {
     ".": {
+      "types": "./types/index.d.ts",
       "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs",
-      "types": "./types/index.d.ts"
+      "import": "./dist/index.mjs"
     },
-    "./global": "./dist/index.global.js"
+    "./global": "./dist/index.global.js",
+    "./*": {
+      "types": "./types/*"
+    }
   },
   "files": [
     "dist/*.cjs",
